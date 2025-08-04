@@ -25,91 +25,126 @@ func Unpack(input string) (string, error) {
 	for number, inputRune := range input {
 		switch number {
 		case 0:
-			if unicode.IsDigit(inputRune) {
-				return "", ErrInvalidString
-			} else if inputRune == slashRune {
-				isPrevSlash = true
-			} else {
-				prevRune = inputRune
+			err := checkFirstRune(inputRune, &isPrevSlash, &prevRune)
+			if err != nil {
+				return "", err
 			}
 		case len(input) - 1:
-			if unicode.IsDigit(inputRune) {
-				if unicode.IsDigit(prevRune) && isNumberWithSlash {
-					inputRuneInt, err := strconv.Atoi(string(inputRune))
-					if err != nil {
-						return "", err
-					}
-					resultBuilder.WriteString(strings.Repeat(string(prevRune), inputRuneInt))
-				} else if unicode.IsDigit(prevRune) {
-					return "", ErrInvalidString
-				} else if isPrevSlash {
-					resultBuilder.WriteRune(inputRune)
-				} else if isNumberWithSlash {
-					inputRuneInt, err := strconv.Atoi(string(inputRune))
-					if err != nil {
-						return "", err
-					}
-					resultBuilder.WriteString(strings.Repeat(string(prevRune), inputRuneInt))
-				} else if unicode.IsDigit(inputRune) && !unicode.IsDigit(prevRune) {
-					inputRuneInt, err := strconv.Atoi(string(inputRune))
-					if err != nil {
-						return "", err
-					}
-					resultBuilder.WriteString(strings.Repeat(string(prevRune), inputRuneInt))
-				}
-			} else {
-				if isPrevSlash && inputRune == slashRune {
-					resultBuilder.WriteRune(inputRune)
-				} else if isPrevSlash {
-					return "", ErrInvalidString
-				} else if isNumberWithSlash {
-					resultBuilder.WriteRune(prevRune)
-					resultBuilder.WriteRune(inputRune)
-				} else if unicode.IsDigit(prevRune) {
-					resultBuilder.WriteRune(inputRune)
-				} else {
-					resultBuilder.WriteRune(prevRune)
-					resultBuilder.WriteRune(inputRune)
-				}
+			err := checkMiddleRunes(inputRune, &prevRune, &isNumberWithSlash, &resultBuilder, &isPrevSlash)
+			if err != nil {
+				return "", err
 			}
 		default:
-			if unicode.IsDigit(inputRune) {
-				if prevRune != 0 && unicode.IsDigit(prevRune) {
-					return "", ErrInvalidString
-				} else if isPrevSlash {
-					isNumberWithSlash = true
-					isPrevSlash = false
-				} else if isNumberWithSlash ||
-					!unicode.IsDigit(prevRune) ||
-					(prevRune != 0 && unicode.IsDigit(prevRune) && isNumberWithSlash) {
-					inputRuneInt, err := strconv.Atoi(string(inputRune))
-					if err != nil {
-						return "", err
-					}
-					resultBuilder.WriteString(strings.Repeat(string(prevRune), inputRuneInt))
-					isPrevSlash = false
-					isNumberWithSlash = false
-				}
-			} else {
-				if isPrevSlash && inputRune == slashRune {
-					isPrevSlash = false
-					isNumberWithSlash = false
-				} else if isPrevSlash {
-					return "", ErrInvalidString
-				} else if isNumberWithSlash || (!unicode.IsDigit(prevRune) && inputRune == slashRune) {
-					resultBuilder.WriteRune(prevRune)
-					if inputRune == slashRune {
-						isPrevSlash = true
-					}
-					isNumberWithSlash = false
-				} else if !unicode.IsDigit(prevRune) {
-					resultBuilder.WriteRune(prevRune)
-					isPrevSlash = false
-					isNumberWithSlash = false
-				}
+			err := checkLastRune(inputRune, &prevRune, &isPrevSlash, &isNumberWithSlash, &resultBuilder)
+			if err != nil {
+				return "", err
 			}
-			prevRune = inputRune
 		}
 	}
 	return resultBuilder.String(), nil
+}
+
+func checkFirstRune(inputRune int32, isPrevSlash *bool, prevRune *rune) error {
+	if unicode.IsDigit(inputRune) {
+		return ErrInvalidString
+	} else if inputRune == slashRune {
+		*isPrevSlash = true
+	} else {
+		*prevRune = inputRune
+	}
+	return nil
+}
+
+func checkMiddleRunes(inputRune int32,
+	prevRune *rune,
+	isNumberWithSlash *bool,
+	resultBuilder *strings.Builder,
+	isPrevSlash *bool,
+) error {
+	if unicode.IsDigit(inputRune) {
+		if unicode.IsDigit(*prevRune) && *isNumberWithSlash {
+			inputRuneInt, err := strconv.Atoi(string(inputRune))
+			if err != nil {
+				return err
+			}
+			resultBuilder.WriteString(strings.Repeat(string(*prevRune), inputRuneInt))
+		} else if unicode.IsDigit(*prevRune) {
+			return ErrInvalidString
+		} else if *isPrevSlash {
+			resultBuilder.WriteRune(inputRune)
+		} else if *isNumberWithSlash {
+			inputRuneInt, err := strconv.Atoi(string(inputRune))
+			if err != nil {
+				return err
+			}
+			resultBuilder.WriteString(strings.Repeat(string(*prevRune), inputRuneInt))
+		} else if unicode.IsDigit(inputRune) && !unicode.IsDigit(*prevRune) {
+			inputRuneInt, err := strconv.Atoi(string(inputRune))
+			if err != nil {
+				return err
+			}
+			resultBuilder.WriteString(strings.Repeat(string(*prevRune), inputRuneInt))
+		}
+	} else {
+		if *isPrevSlash && inputRune == slashRune {
+			resultBuilder.WriteRune(inputRune)
+		} else if *isPrevSlash {
+			return ErrInvalidString
+		} else if *isNumberWithSlash {
+			resultBuilder.WriteRune(*prevRune)
+			resultBuilder.WriteRune(inputRune)
+		} else if unicode.IsDigit(*prevRune) {
+			resultBuilder.WriteRune(inputRune)
+		} else {
+			resultBuilder.WriteRune(*prevRune)
+			resultBuilder.WriteRune(inputRune)
+		}
+	}
+	*prevRune = inputRune
+	return nil
+}
+
+func checkLastRune(inputRune int32,
+	prevRune *rune,
+	isPrevSlash *bool,
+	isNumberWithSlash *bool,
+	resultBuilder *strings.Builder,
+) error {
+	if unicode.IsDigit(inputRune) {
+		if *prevRune != 0 && unicode.IsDigit(*prevRune) {
+			return ErrInvalidString
+		} else if *isPrevSlash {
+			*isNumberWithSlash = true
+			*isPrevSlash = false
+		} else if *isNumberWithSlash ||
+			!unicode.IsDigit(*prevRune) ||
+			(*prevRune != 0 && unicode.IsDigit(*prevRune) && *isNumberWithSlash) {
+			inputRuneInt, err := strconv.Atoi(string(inputRune))
+			if err != nil {
+				return err
+			}
+			resultBuilder.WriteString(strings.Repeat(string(*prevRune), inputRuneInt))
+			*isPrevSlash = false
+			*isNumberWithSlash = false
+		}
+	} else {
+		if *isPrevSlash && inputRune == slashRune {
+			*isPrevSlash = false
+			*isNumberWithSlash = false
+		} else if *isPrevSlash {
+			return ErrInvalidString
+		} else if *isNumberWithSlash || (!unicode.IsDigit(*prevRune) && inputRune == slashRune) {
+			resultBuilder.WriteRune(*prevRune)
+			if inputRune == slashRune {
+				*isPrevSlash = true
+			}
+			*isNumberWithSlash = false
+		} else if !unicode.IsDigit(*prevRune) {
+			resultBuilder.WriteRune(*prevRune)
+			*isPrevSlash = false
+			*isNumberWithSlash = false
+		}
+	}
+	*prevRune = inputRune
+	return nil
 }
