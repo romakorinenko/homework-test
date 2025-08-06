@@ -22,14 +22,14 @@ func Unpack(input string) (string, error) {
 	var isPrevSlash bool
 	var isNumberWithSlash bool
 
-	for number, inputRune := range input {
+	for number, inputRune := range []rune(input) {
 		switch number {
 		case 0:
 			err := checkFirstRune(inputRune, &isPrevSlash, &prevRune)
 			if err != nil {
 				return "", err
 			}
-		case len(input) - 1:
+		case len([]rune(input)) - 1:
 			err := checkLastRunes(inputRune, &prevRune, &isNumberWithSlash, &resultBuilder, &isPrevSlash)
 			if err != nil {
 				return "", err
