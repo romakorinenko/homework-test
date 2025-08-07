@@ -14,7 +14,9 @@ var ErrInvalidString = errors.New("invalid string")
 func Unpack(input string) (string, error) {
 	resultBuilder := strings.Builder{}
 
-	if len([]rune(input)) <= 1 {
+	if len([]rune(input)) == 1 && []rune(input)[0] == slashRune {
+		return "", ErrInvalidString
+	} else if len([]rune(input)) <= 1 {
 		return input, nil
 	}
 
@@ -48,7 +50,6 @@ func checkFirstRune(inputRune int32, isPrevSlash *bool, prevRune *rune) error {
 	if unicode.IsDigit(inputRune) {
 		return ErrInvalidString
 	} else if inputRune == slashRune {
-		*isPrevSlash = true
 		rewriteFlags(isPrevSlash, nil, true, false)
 	}
 	*prevRune = inputRune
@@ -85,7 +86,7 @@ func checkLastRuneInputRuneIsNotDigit(inputRune int32,
 	switch {
 	case (*isPrevSlash && inputRune == slashRune) || unicode.IsDigit(*prevRune):
 		resultBuilder.WriteRune(inputRune)
-	case *isPrevSlash:
+	case *isPrevSlash || !*isPrevSlash && inputRune == slashRune:
 		return ErrInvalidString
 	default:
 		resultBuilder.WriteRune(*prevRune)
@@ -165,8 +166,11 @@ func checkMiddleRuneInputRuneIsDigit(inputRune int32,
 	resultBuilder *strings.Builder,
 ) error {
 	switch {
+	case unicode.IsDigit(*prevRune) && *isNumberWithSlash:
+		writeRepeatString(inputRune, prevRune, resultBuilder)
+		rewriteFlags(isPrevSlash, isNumberWithSlash, false, false)
 	case unicode.IsDigit(*prevRune):
-		return ErrInvalidString
+		return ErrInvalidString // неверно если будет
 	case *isPrevSlash:
 		rewriteFlags(isPrevSlash, isNumberWithSlash, false, true)
 	default:
