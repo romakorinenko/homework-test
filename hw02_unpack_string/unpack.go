@@ -146,6 +146,8 @@ func checkMiddleRuneInputRuneIsNotDigit(
 	switch {
 	case *isPrevSlash && inputRune == slashRune:
 		rewriteFlags(isPrevSlash, isNumberWithSlash, false, false)
+	case *isPrevSlash && inputRune != slashRune:
+		return ErrInvalidString
 	case *isPrevSlash:
 		resultBuilder.WriteRune(*prevRune)
 		rewriteFlags(isPrevSlash, isNumberWithSlash, inputRune == slashRune, false)
