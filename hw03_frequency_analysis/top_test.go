@@ -48,6 +48,30 @@ func TestTop10(t *testing.T) {
 		require.Len(t, Top10(""), 0)
 	})
 
+	t.Run("input string contains only spaces", func(t *testing.T) {
+		require.Len(t, Top10(" "), 0)
+	})
+
+	t.Run("actual slice less than 10 words", func(t *testing.T) {
+		input := "cat and dog, one dog,two cats and one man"
+		actual := Top10(input)
+		require.Equal(t, []string{
+			"and",
+			"one",
+			"cat",
+			"cats",
+			"dog,",
+			"dog,two",
+			"man",
+		}, actual)
+	})
+
+	t.Run("more than 10 words have the same count", func(t *testing.T) {
+		input := `z y x w v u t s r q p o n m l k j i h g f e d c b a`
+		actual := Top10(input)
+		require.Equal(t, []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j"}, actual)
+	})
+
 	t.Run("positive test", func(t *testing.T) {
 		if taskWithAsteriskIsCompleted {
 			expected := []string{
