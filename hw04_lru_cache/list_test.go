@@ -82,4 +82,14 @@ func TestList(t *testing.T) {
 		require.Equal(t, 10, list.Front().Next.Prev.Value)
 		require.Nil(t, list.Front().Next.Next)
 	})
+
+	t.Run("moveToFront several times", func(t *testing.T) {
+		list := NewList()
+		list.PushFront(10)
+		frontItem := list.Front()
+		list.MoveToFront(frontItem)
+		list.MoveToFront(frontItem)
+		list.MoveToFront(frontItem)
+		require.Equal(t, 1, list.Len())
+	})
 }
