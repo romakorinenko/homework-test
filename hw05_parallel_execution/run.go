@@ -1,6 +1,7 @@
 package hw05parallelexecution
 
 import (
+	"context"
 	"errors"
 	"sync"
 	"sync/atomic"
@@ -16,31 +17,52 @@ func Run(tasks []Task, n, m int) error {
 	var errCount int64
 	wg := sync.WaitGroup{}
 
-	defer func() {
-		close(taskCh)
-		wg.Wait()
-	}()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
 
 	for i := 0; i < n; i++ {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-
-			for task := range taskCh {
-				if task() != nil {
-					atomic.AddInt64(&errCount, 1)
+			for {
+				select {
+				case task, ok := <-taskCh:
+					if !ok {
+						return
+					}
+					if err := task(); err != nil && m > 0 {
+						count := atomic.AddInt64(&errCount, 1)
+						if int(count) >= m {
+							cancel()
+							return
+						}
+					}
+				case <-ctx.Done():
+					return
 				}
 			}
 		}()
 	}
 
-	for _, task := range tasks {
-		taskCh <- task
+	go resolveTasks(ctx, tasks, taskCh)
+	wg.Wait()
 
-		if m > 0 && int(atomic.LoadInt64(&errCount)) >= m {
-			return ErrErrorsLimitExceeded
-		}
+	if m > 0 && int(errCount) >= m {
+		return ErrErrorsLimitExceeded
 	}
 
 	return nil
+}
+
+func resolveTasks(ctx context.Context, tasks []Task, taskCh chan Task) {
+	func() {
+		defer close(taskCh)
+		for _, task := range tasks {
+			select {
+			case taskCh <- task:
+			case <-ctx.Done():
+				return
+			}
+		}
+	}()
 }
