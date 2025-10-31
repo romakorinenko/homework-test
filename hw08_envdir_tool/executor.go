@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"os/exec"
 )
@@ -31,8 +32,9 @@ func RunCmd(cmd []string, env Environment) (returnCode int) {
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
 	if err := command.Run(); err != nil {
-		fmt.Println(err)
+		log.Println(err)
+		return 1
 	}
 
-	return command.ProcessState.ExitCode()
+	return 0
 }
