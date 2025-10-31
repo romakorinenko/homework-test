@@ -58,6 +58,19 @@ func TestValidate(t *testing.T) {
 			expectedErr: nil,
 		},
 		{
+			name: "struct is valid, phones are empty",
+			givenStruct: User{
+				ID:     "1q2w3e4r5t6y7u8i9o0pqwertyuiop123456",
+				Name:   "Name",
+				Age:    20,
+				Email:  "mail@mail.com",
+				Role:   UserRole("admin"),
+				Phones: []string{},
+				meta:   nil,
+			},
+			expectedErr: nil,
+		},
+		{
 			name:        "value is not a struct",
 			givenStruct: 42,
 			expectedErr: ErrTypeIsNotStruct,

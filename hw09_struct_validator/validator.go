@@ -31,12 +31,11 @@ var (
 	ErrInvalidTag         = errors.New("invalid check in validate tag")
 	ErrConvertStringToInt = errors.New("failed to convert string %v to int: %w")
 
-	ErrIn         = errors.New("'%v' not in array of values: '%v'")
-	ErrLen        = errors.New("'%v' does not have length = '%v'")
-	ErrRegex      = errors.New("'%v' doesn't match regex: '%v'")
-	ErrEmptySlice = errors.New("slice is empty")
-	ErrMin        = errors.New("'%v' is less than: '%v'")
-	ErrMax        = errors.New("'%v' is greater than: '%v'")
+	ErrIn    = errors.New("'%v' not in array of values: '%v'")
+	ErrLen   = errors.New("'%v' does not have length = '%v'")
+	ErrRegex = errors.New("'%v' doesn't match regex: '%v'")
+	ErrMin   = errors.New("'%v' is less than: '%v'")
+	ErrMax   = errors.New("'%v' is greater than: '%v'")
 )
 
 type ValidationError struct {
@@ -111,11 +110,7 @@ func validateSlice(fieldName string, value reflect.Value, tag string) (Validatio
 	var err error
 
 	if value.Len() == 0 {
-		validationErrors = append(validationErrors, ValidationError{
-			Field: fieldName,
-			Value: value.String(),
-			Err:   ErrEmptySlice,
-		})
+		return nil, nil
 	}
 
 	for i := 0; i < value.Len(); i++ {
