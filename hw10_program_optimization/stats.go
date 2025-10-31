@@ -39,7 +39,10 @@ func countDomains(r io.Reader, domain string) (DomainStat, error) {
 			return nil, errors.New("incorrect email")
 		}
 
-		if strings.HasSuffix(email, domain) {
+		builder := strings.Builder{}
+		builder.WriteString(".")
+		builder.WriteString(domain)
+		if strings.HasSuffix(email, builder.String()) {
 			domain := strings.ToLower(strings.SplitN(email, "@", 2)[1])
 			result[domain]++
 		}

@@ -11,7 +11,7 @@ import (
 // pkg: github.com/romakorinenko/homework-test/hw10_program_optimization
 // cpu: Apple M3 Pro
 // BenchmarkGetDomainStat
-// BenchmarkGetDomainStat-11    	 3224432	       366.6 ns/op
+// BenchmarkGetDomainStat-11    	 3134178	       374.4 ns/op
 // PASS
 // .
 func BenchmarkGetDomainStat(b *testing.B) {
