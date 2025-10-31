@@ -36,18 +36,22 @@ func ReadDir(dir string) (Environment, error) {
 			return nil, errors.New("incorrect file name")
 		}
 
-		value, err := getValueFromFile(path.Join(dir, file.Name()))
-		if err != nil {
-			return nil, err
-		}
-
 		fileInfo, err := file.Info()
 		if err != nil {
 			return nil, err
 		}
 
+		var resValue string
+		if fileInfo.Size() != 0 {
+			value, err := getValueFromFile(path.Join(dir, file.Name()))
+			if err != nil {
+				return nil, err
+			}
+			resValue = value
+		}
+
 		env[file.Name()] = EnvValue{
-			Value:      value,
+			Value:      resValue,
 			NeedRemove: fileInfo.Size() == 0,
 		}
 	}
