@@ -1,10 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
+	"syscall"
 )
 
 // RunCmd runs a command + arguments (cmd) with environment variables from env.
@@ -32,7 +33,12 @@ func RunCmd(cmd []string, env Environment) (returnCode int) {
 	command.Stdout = os.Stdout
 	command.Stderr = os.Stderr
 	if err := command.Run(); err != nil {
-		log.Println(err)
+		var exitErr *exec.ExitError
+		if errors.As(err, &exitErr) {
+			if status, ok := exitErr.Sys().(syscall.WaitStatus); ok {
+				return status.ExitStatus()
+			}
+		}
 		return 1
 	}
 
