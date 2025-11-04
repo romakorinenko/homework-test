@@ -1,3 +1,4 @@
+//go:build !bench
 // +build !bench
 
 package hw10programoptimization
@@ -36,4 +37,15 @@ func TestGetDomainStat(t *testing.T) {
 		require.NoError(t, err)
 		require.Equal(t, DomainStat{}, result)
 	})
+}
+
+func TestGetDomainStat_Prosale(t *testing.T) {
+	data := `{"Id":1,"Name":"Howard Mendoza","Username":"0Oliver","Email":"abc@abc.prosale","Phone":"6-866-899-36-79","Password":"InAQJvsq","Address":"Blackbird Place 25"}`
+	domainStat, err := GetDomainStat(bytes.NewBufferString(data), "sale")
+	require.NoError(t, err)
+	require.Equal(t, DomainStat{}, domainStat)
+
+	domainStat, err = GetDomainStat(bytes.NewBufferString(data), "prosale")
+	require.NoError(t, err)
+	require.Equal(t, DomainStat{"abc.prosale": 1}, domainStat)
 }

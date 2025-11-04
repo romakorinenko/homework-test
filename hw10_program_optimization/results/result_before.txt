@@ -1,0 +1,12 @@
+=== RUN   TestGetDomainStat_Time_And_Memory
+    stats_optimization_test.go:46: time used: 280.653875ms / 300ms
+    stats_optimization_test.go:47: memory used: 308Mb / 30Mb
+    stats_optimization_test.go:50: 
+        	Error Trace:	/Users/romakorinenko/GolandProjects/homework-test/hw10_program_optimization/stats_optimization_test.go:50
+        	Error:      	"323256064" is not less than "31457280"
+        	Test:       	TestGetDomainStat_Time_And_Memory
+        	Messages:   	the program is too greedy
+--- FAIL: TestGetDomainStat_Time_And_Memory (4.53s)
+FAIL
+FAIL	github.com/romakorinenko/homework-test/hw10_program_optimization	5.109s
+FAIL
