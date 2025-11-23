@@ -1,21 +1,22 @@
-package memorystorage
+package sqlstorage
 
 import (
 	"context"
-	"sync"
 	"testing"
 	"time"
 
 	storage2 "github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/storage"
+	test "github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/tests"
 	"github.com/stretchr/testify/require"
 )
 
 func TestStorage_CRUD(t *testing.T) {
 	ctx := context.Background()
+	testDB := test.CreateDBForTest(t, "/migrations")
 
 	start := time.Now().Add(-1 * time.Hour)
 	end := time.Now()
-	storage := Storage{make(map[int64]*storage2.Event), sync.Mutex{}}
+	storage := Storage{testDB.DBPool}
 	event, err := storage.Create(ctx, &storage2.Event{
 		Title:     "Test title",
 		StartDate: start,
