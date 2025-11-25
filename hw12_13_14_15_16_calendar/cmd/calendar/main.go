@@ -9,6 +9,7 @@ import (
 	"github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/app"
 	"github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/configs"
 	"github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/logger"
+	internalgrpc "github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/grpc"
 	internalhttp "github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http"
 	storage2 "github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/storage"
 	memorystorage "github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/storage/memory"
@@ -37,27 +38,33 @@ func main() {
 
 	calendar := app.New(appLogger, storage)
 
-	server := internalhttp.NewServer(appConfig.HTTP, calendar)
-
-	ctx, cancel := signal.NotifyContext(appCtx,
-		syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
-
-	go func() {
-		<-ctx.Done()
-		cancel()
-
-		ctx, cancel := context.WithTimeout(context.Background(), time.Second*3)
-		defer cancel()
-
-		if err := server.Stop(ctx); err != nil {
-			appLogger.Error("failed to stop http server: " + err.Error())
-		}
-		_ = storage.Close()
-	}()
+	serverHTTP := internalhttp.NewServer(appConfig.HTTP, calendar)
+	serverGRPC := internalgrpc.NewServer(appConfig.GRPC.Host, appConfig.GRPC.Port, appLogger, calendar)
 
 	appLogger.Info("calendar is running...")
 
-	if err := server.Start(); err != nil {
-		appLogger.Error("failed to start http server: " + err.Error())
+	go func() {
+		_ = serverHTTP.Start()
+	}()
+
+	go func() {
+		_ = serverGRPC.Start()
+	}()
+
+	ctx, cancel := signal.NotifyContext(appCtx, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
+
+	<-ctx.Done()
+	cancel()
+
+	ctx, cancel = context.WithTimeout(context.Background(), time.Second*3)
+	defer cancel()
+
+	if err := serverHTTP.Stop(ctx); err != nil {
+		appLogger.Error("failed to stop http serverHTTP: " + err.Error())
+	}
+	_ = storage.Close()
+
+	if err := serverGRPC.Stop(); err != nil {
+		appLogger.Error("failed to stop grpc serverHTTP: " + err.Error())
 	}
 }

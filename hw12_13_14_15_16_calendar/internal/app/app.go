@@ -34,25 +34,10 @@ func New(logger Logger, storage Storage) *App {
 	return &App{log: logger, storage: storage}
 }
 
-func (a *App) CreateEvent(
-	ctx context.Context,
-	startData, endData time.Time,
-	userID int64,
-	title string,
-) (*storage.Event, error) {
-	a.log.Info("CreateEvent - start.",
-		slog.Any("startData", startData),
-		slog.Any("endData", endData),
-		slog.String("title", title),
-		slog.Any("userID", userID),
-	)
+func (a *App) CreateEvent(ctx context.Context, event *storage.Event) (*storage.Event, error) {
+	a.log.Info("CreateEvent - start.", slog.Any("event", event))
 
-	event, err := a.storage.Create(ctx, &storage.Event{
-		StartDate: startData,
-		EndDate:   endData,
-		Title:     title,
-		UserID:    userID,
-	})
+	event, err := a.storage.Create(ctx, event)
 	if err != nil {
 		return nil, fmt.Errorf("create event: %w", err)
 	}
@@ -61,29 +46,12 @@ func (a *App) CreateEvent(
 	return event, nil
 }
 
-func (a *App) UpdateEvent(
-	ctx context.Context,
-	id int64,
-	startData, endData time.Time,
-	userID int64,
-	title string,
-) error {
-	a.log.Info("UpdateEvent - start.",
-		slog.Any("id", id),
-		slog.Any("startData", startData),
-		slog.Any("endData", endData),
-		slog.Any("title", title),
-	)
+func (a *App) UpdateEvent(ctx context.Context, event *storage.Event) error {
+	a.log.Info("UpdateEvent - start.", slog.Any("event", event))
 
-	err := a.storage.Update(ctx, &storage.Event{
-		ID:        id,
-		Title:     title,
-		StartDate: startData,
-		EndDate:   endData,
-		UserID:    userID,
-	})
+	err := a.storage.Update(ctx, event)
 	if err != nil {
-		return fmt.Errorf("update event with id '%d': %w", id, err)
+		return fmt.Errorf("update event with id '%d': %w", event.ID, err)
 	}
 	a.log.Info("UpdateEvent - end.")
 

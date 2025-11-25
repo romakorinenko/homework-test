@@ -2,8 +2,12 @@ logger:
   level: INFO
 storage:
   type: sql
-  dbString: 'postgresql://postgres:postgres@localhost:55432/app_db?sslmode=disable'
+  dbString: 'postgresql://postgres:postgres@localhost:55433/app_db?sslmode=disable'
 http:
   port: "8080"
+  timeout: "10s"
+grpc:
+  host: localhost
+  port: "50051"
   timeout: "10s"
 

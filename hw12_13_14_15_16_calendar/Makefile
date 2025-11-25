@@ -43,5 +43,13 @@ migration-down:
 migration-status:
 	goose -dir migrations postgres 'postgresql://postgres:postgres@localhost:55433/app_db?sslmode=disable' status
 
+generate:
+	rm -rf ./internal/server/grpc/pb
+	mkdir -p ./internal/server/grpc/pb
+
+	protoc \
+		--go_out=./internal/server/grpc \
+		--go-grpc_out=./internal/server/grpc \
+		./api/*.proto
 
 .PHONY: build run build-img run-img version test lint

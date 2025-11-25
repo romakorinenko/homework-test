@@ -9,6 +9,7 @@ type CalendarConfig struct {
 	Logger  Logger  `yaml:"logger"`
 	Storage Storage `yaml:"storage"`
 	HTTP    HTTP    `yaml:"http"`
+	GRPC    GRPC    `yaml:"grpc"`
 }
 
 type Logger struct {
@@ -21,6 +22,12 @@ type Storage struct {
 }
 
 type HTTP struct {
+	Port    string        `yaml:"port"`
+	Timeout time.Duration `yaml:"timeout"`
+}
+
+type GRPC struct {
+	Host    string        `yaml:"host"`
 	Port    string        `yaml:"port"`
 	Timeout time.Duration `yaml:"timeout"`
 }
