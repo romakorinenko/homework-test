@@ -15,6 +15,10 @@ type App struct {
 	storage Storage
 }
 
+func NewApp(log Logger, storage Storage) *App {
+	return &App{log: log, storage: storage}
+}
+
 type Logger interface {
 	Info(msg string, data ...interface{})
 	Debug(msg string, data ...interface{})
