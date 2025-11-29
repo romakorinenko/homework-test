@@ -29,10 +29,15 @@ func NewStorage(ctx context.Context, dbString string) *Storage {
 	if err != nil {
 		panic(err)
 	}
+	location, err := time.LoadLocation("Europe/Moscow")
+	if err != nil {
+		panic(err)
+	}
 	dbConfig.AfterConnect = func(_ context.Context, conn *pgx.Conn) error {
 		conn.TypeMap().RegisterType(&pgtype.Type{
-			Name: "timestamp",
-			OID:  pgtype.TimestampOID,
+			Name:  "timestamp",
+			OID:   pgtype.TimestampOID,
+			Codec: &pgtype.TimestampCodec{ScanLocation: location},
 		})
 		return nil
 	}
