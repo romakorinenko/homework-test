@@ -29,7 +29,7 @@ func NewStorage(ctx context.Context, dbString string) *Storage {
 	if err != nil {
 		panic(err)
 	}
-	location, err := time.LoadLocation("Europe/Moscow")
+	location, err := time.LoadLocation("Local")
 	if err != nil {
 		panic(err)
 	}

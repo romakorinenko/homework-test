@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"os/signal"
 	"syscall"
 
@@ -21,6 +22,7 @@ func main() {
 	appConfig := configs.GetAppConfig[configs.CalendarConfig]()
 
 	appLogger := logger.NewLogger(appConfig.Logger.Level)
+	appLogger.Info("config received", slog.Any("config", appConfig))
 
 	var storage app.Storage
 	switch appConfig.Storage.Type {
@@ -35,6 +37,10 @@ func main() {
 	}
 
 	rabbitMq := rabbitmq.NewRabbitMq(appConfig.RabbitMQ)
+	err := rabbitMq.Start()
+	if err != nil {
+		panic(err)
+	}
 	newScheduler := scheduler.MustNewScheduler(appCtx, appConfig.Scheduler, appLogger, storage, rabbitMq)
 
 	ctx, cancel := signal.NotifyContext(appCtx, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)

@@ -20,10 +20,10 @@ services:
   migrations:
     image: ghcr.io/kukymbr/goose-docker:3.24.3
     depends_on:
-      - db
+      - postgres
     environment:
       GOOSE_DRIVER: postgres
-      GOOSE_DBSTRING: host=db port=5432 user=postgres password=postgres dbname=app_db sslmode=disable
+      GOOSE_DBSTRING: host=postgres port=5432 user=postgres password=postgres dbname=app_db
     volumes:
       - ./migrations:/migrations
     command: up
