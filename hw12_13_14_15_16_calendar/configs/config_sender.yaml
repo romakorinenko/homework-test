@@ -1,0 +1,8 @@
+logger:
+  level: INFO
+rabbitmq:
+  host: "localhost"
+  port: 5672
+  user: user
+  password: user
+  queueName: events
