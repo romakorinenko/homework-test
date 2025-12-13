@@ -1,0 +1,14 @@
+FROM golang:1.23.4 as build
+
+WORKDIR /app
+
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+COPY . .
+
+ENV CONFIG_FILE /etc/config.yaml
+COPY ./configs/config_docker.yaml ${CONFIG_FILE}
+
+CMD ["go", "test", "-v", "-tags=integration", "./internal/integration_test/...", "--config-file-path=/etc/config.yaml"]

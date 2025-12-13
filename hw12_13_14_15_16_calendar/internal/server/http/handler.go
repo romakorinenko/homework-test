@@ -40,6 +40,13 @@ func (h *EventHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if event.Title == "" || event.UserID == 0 {
+		w.WriteHeader(http.StatusBadRequest)
+		_, _ = fmt.Fprintf(w, `{"error": "%s"}`, "incomplete event")
+
+		return
+	}
+
 	now := time.Now()
 	marshal, err := json.Marshal(now.String())
 	if err != nil {

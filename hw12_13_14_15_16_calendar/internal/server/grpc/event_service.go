@@ -18,12 +18,17 @@ type EventService struct {
 }
 
 func (h *EventService) Create(ctx context.Context, ev *pb.Event) (*pb.Event, error) {
-	createdEvent, err := h.app.CreateEvent(ctx, &storage.Event{
+	event := &storage.Event{
 		Title:     ev.Title,
-		StartDate: ev.StartDate.AsTime(),
-		EndDate:   ev.EndDate.AsTime(),
+		StartDate: ev.StartDate.AsTime().Local(),
+		EndDate:   ev.EndDate.AsTime().Local(),
 		UserID:    ev.UserId,
-	})
+	}
+	if event.Title == "" || event.UserID == 0 {
+		return nil, status.Error(codes.InvalidArgument, "failed to create event")
+	}
+
+	createdEvent, err := h.app.CreateEvent(ctx, event)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

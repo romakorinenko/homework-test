@@ -1,0 +1,225 @@
+/usr/bin/make -f /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/Makefile -C /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar run_integration_test
+WARN[0000] /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/docker-compose-test.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 0/1
+ ⠋ Network hw12_13_14_15_16_calendar_default  Creating0.0s
+[+] Running 1/3
+ ✔ Network hw12_13_14_15_16_calendar_default       Created0.1s
+ ⠋ Container hw12_13_14_15_16_calendar-postgres-1  Creating0.1s
+ ⠋ Container hw12_13_14_15_16_calendar-rabbitmq-1  Creating0.1s
+[+] Running 2/4
+ ✔ Network hw12_13_14_15_16_calendar_default         Created0.1s
+ ⠙ Container hw12_13_14_15_16_calendar-postgres-1    Starting0.2s
+ ⠙ Container hw12_13_14_15_16_calendar-rabbitmq-1    Starting0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Created0.0s
+[+] Running 2/4
+ ✔ Network hw12_13_14_15_16_calendar_default         Created0.1s
+ ⠹ Container hw12_13_14_15_16_calendar-postgres-1    Starting0.3s
+ ⠹ Container hw12_13_14_15_16_calendar-rabbitmq-1    Starting0.3s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Created0.0s
+[+] Running 3/4
+ ✔ Network hw12_13_14_15_16_calendar_default         Created0.1s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Started0.3s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1    Started0.3s
+ ⠙ Container hw12_13_14_15_16_calendar-migrations-1  Starting0.2s
+[+] Running 4/4
+ ✔ Network hw12_13_14_15_16_calendar_default         Created0.1s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Started0.3s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1    Started0.3s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Started0.3s
+WARN[0000] /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/docker-compose-test.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Building 0.0s (0/1)
+ => [internal] load local bake definitions                                 0.0s
+[+] Building 0.2s (1/1)
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+[+] Building 0.3s (1/2)
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+[+] Building 0.5s (2/3)
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+ => [internal] load build definition from Dockerfile_test                  0.0s
+ => => transferring dockerfile: 222B                                       0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [internal] load metadata for docker.io/library/golang:1.23.4           0.2s
+[+] Building 0.6s (2/3)
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+ => [internal] load build definition from Dockerfile_test                  0.0s
+ => => transferring dockerfile: 222B                                       0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [internal] load metadata for docker.io/library/golang:1.23.4           0.3s
+[+] Building 0.8s (2/3)
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+ => [internal] load build definition from Dockerfile_test                  0.0s
+ => => transferring dockerfile: 222B                                       0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [internal] load metadata for docker.io/library/golang:1.23.4           0.5s
+[+] Building 0.8s (3/3)
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+ => [internal] load build definition from Dockerfile_test                  0.0s
+ => => transferring dockerfile: 222B                                       0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [internal] load metadata for docker.io/library/golang:1.23.4           0.5s
+[+] Building 1.0s (9/10)
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [1/5] FROM docker.io/library/golang:1.23.4@sha256:9820aca42262f58451f  0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 6.14kB                                        0.0s
+ => CACHED [2/5] WORKDIR /app                                              0.0s
+ => CACHED [3/5] COPY go.mod go.sum ./                                     0.0s
+ => CACHED [4/5] RUN go mod download                                       0.0s
+ => [5/5] COPY . .                                                         0.2s
+[+] Building 1.1s (10/10)
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [1/5] FROM docker.io/library/golang:1.23.4@sha256:9820aca42262f58451f  0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 6.14kB                                        0.0s
+ => CACHED [2/5] WORKDIR /app                                              0.0s
+ => CACHED [3/5] COPY go.mod go.sum ./                                     0.0s
+ => CACHED [4/5] RUN go mod download                                       0.0s
+ => [5/5] COPY . .                                                         0.2s
+[+] Building 1.2s (10/11)
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => => transferring context: 6.14kB                                        0.0s
+ => CACHED [2/5] WORKDIR /app                                              0.0s
+ => CACHED [3/5] COPY go.mod go.sum ./                                     0.0s
+ => CACHED [4/5] RUN go mod download                                       0.0s
+ => [5/5] COPY . .                                                         0.2s
+ => exporting to image                                                     0.1s
+ => => exporting layers                                                    0.1s
+[+] Building 1.3s (12/12) FINISHED
+ => [internal] load local bake definitions                                 0.0s
+ => => reading from stdin 694B                                             0.0s
+ => [internal] load build definition from Dockerfile_test                  0.0s
+ => => transferring dockerfile: 222B                                       0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (li  0.0s
+ => [internal] load metadata for docker.io/library/golang:1.23.4           0.5s
+ => [internal] load .dockerignore                                          0.0s
+ => => transferring context: 2B                                            0.0s
+ => [1/5] FROM docker.io/library/golang:1.23.4@sha256:9820aca42262f58451f  0.0s
+ => [internal] load build context                                          0.0s
+ => => transferring context: 6.14kB                                        0.0s
+ => CACHED [2/5] WORKDIR /app                                              0.0s
+ => CACHED [3/5] COPY go.mod go.sum ./                                     0.0s
+ => CACHED [4/5] RUN go mod download                                       0.0s
+ => [5/5] COPY . .                                                         0.2s
+ => exporting to image                                                     0.1s
+ => => exporting layers                                                    0.1s
+ => => writing image sha256:24829b3681da476142ebbdec15e4b5ef123c69d1ca01f  0.0s
+ => => naming to docker.io/library/hw12_13_14_15_16_calendar-integration-  0.0s
+ => resolving provenance for metadata file                                 0.0s
+[+] Running 3/4
+ ✔ hw12_13_14_15_16_calendar-integration-tests     Built0.0s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1  Running0.0s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1  Running0.0s
+ ⠋ Container integration-tests                     Creating0.0s
+[+] Running 4/4
+ ✔ hw12_13_14_15_16_calendar-integration-tests     Built0.0s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1  Running0.0s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1  Running0.0s
+ ✔ Container integration-tests                     Created0.0s
+WARN[0001] could not start menu, an error occurred while starting: open /dev/tty: device not configured
+Attaching to integration-tests
+integration-tests  | 2025/12/11 18:04:59 INFO start test
+integration-tests  | 2025/12/11 18:04:59 INFO loading config file file=configs/config.yaml
+integration-tests  | panic: stat configs/config.yaml: no such file or directory
+integration-tests  |
+integration-tests  | goroutine 1 [running]:
+integration-tests  | github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/configs.mustValidateConfigPath({0x942a0b?, 0xa72668?})
+integration-tests  | 	/app/internal/configs/loader.go:57 +0x6c
+integration-tests  | github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/configs.MustLoadConfig[...](0x4000192620, {0x942a0b, 0x13})
+integration-tests  | 	/app/internal/configs/loader.go:40 +0xcc
+integration-tests  | github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/configs.GetAppConfig[...]()
+integration-tests  | 	/app/internal/configs/loader.go:20 +0x80
+integration-tests  | github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/integration_test_test.TestMain(0x40001e8640)
+integration-tests  | 	/app/internal/integration_test/integration_test.go:31 +0x78
+integration-tests  | main.main()
+integration-tests  | 	_testmain.go:47 +0x98
+integration-tests  | FAIL	github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/integration_test	0.005s
+integration-tests  | FAIL
+integration-tests exited with code 1
+ Container integration-tests  Stopping
+ Container integration-tests  Stopped
+Aborting on container exit...
+
+Tests exited with code: 1
+WARN[0000] /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/docker-compose-test.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 0/1
+ ⠋ Container integration-tests  Removing0.1s
+[+] Running 0/1
+ ⠙ Container integration-tests  Removing0.2s
+[+] Running 2/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠋ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.1s
+ ⠋ Container hw12_13_14_15_16_calendar-postgres-1    Stopping0.0s
+[+] Running 2/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠙ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.2s
+ ⠙ Container hw12_13_14_15_16_calendar-postgres-1    Stopping0.1s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠹ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.3s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠸ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.4s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠼ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.5s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠴ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.6s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠦ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.7s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠧ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.8s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠇ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping0.9s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠏ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping1.0s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠋ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping1.1s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠙ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping1.2s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 3/4
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ⠹ Container hw12_13_14_15_16_calendar-rabbitmq-1    Stopping1.3s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+[+] Running 5/5
+ ✔ Container integration-tests                       Removed0.2s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed0.0s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1    Removed1.3s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed0.2s
+ ✔ Network hw12_13_14_15_16_calendar_default         Removed0.1s
+make: *** [run_integration_test] Error 1

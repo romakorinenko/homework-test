@@ -1,0 +1,56 @@
+romakorinenko@MacBook-Pro-de-Roman hw12_13_14_15_16_calendar % make run_integration_test_local
+go test -v -tags=integration ./internal/integration_test/... --config-file-path=../../configs/config_integration_local.yaml
+2025/12/14 00:00:06 INFO start test
+2025/12/14 00:00:06 INFO loading config file file=../../configs/config_integration_local.yaml
+2025/12/14 00:00:06 INFO  config="{Logger:{Level:INFO} Storage:{Type:sql DBString:postgresql://postgres:postgres@localhost:5432/app_db?sslmode=disable} HTTP:{Port:8080 Timeout:10s} GRPC:{Host:localhost Port:50051 Timeout:10s} RabbitMQ:{Host:localhost Port:5672 User:user Password:user Queue: Timeout:3s} Scheduler:{NotificationCron:* * * * * EventDeletionCron:0 10 * * *}}"
+time=2025-12-14T00:00:06.177+03:00 level=INFO msg="notification job created" !BADKEY="jobID=ac2497c0-4a65-4413-ac7c-eeb039f3fb4c"
+time=2025-12-14T00:00:06.178+03:00 level=INFO msg="deletion job created" !BADKEY="jobID=e04ca620-9251-496e-847c-7383b57db6cc"
+time=2025-12-14T00:00:06.178+03:00 level=INFO msg="scheduler started"
+time=2025-12-14T00:00:06.178+03:00 level=INFO msg="calendar is running..."
+time=2025-12-14T00:00:06.178+03:00 level=INFO msg="start http server" addr=:8080
+=== RUN   TestCalendar_CreateEvent_SuccessCases
+time=2025-12-14T00:00:06.179+03:00 level=INFO msg="start http server" addr=localhost:50051
+2025/12/14 00:00:06 INFO TestCalendar create event. success cases
+"2025-12-14 00:00:06.180241 +0300 MSK m=+0.075524709"
+time=2025-12-14T00:00:06.180+03:00 level=INFO msg="CreateEvent - start." event="&{ID:0 Title:test event StartDate:2025-12-14 00:00:06.179041 +0300 MSK EndDate:2025-12-14 00:00:26.179041 +0300 MSK UserID:1}"
+time=2025-12-14T00:00:06.223+03:00 level=INFO msg="CreateEvent - end."
+time=2025-12-14T00:00:06.223+03:00 level=INFO msg="[::1]:65340  POST  /event/create  HTTP/1.1  Go-http-client/1.1  43.563625ms"
+time=2025-12-14T00:00:06.236+03:00 level=INFO msg="CreateEvent - start." event="&{ID:0 Title:test event2 StartDate:2025-12-14 00:00:06.179041 +0300 MSK EndDate:2025-12-14 00:00:26.179041 +0300 MSK UserID:1}"
+time=2025-12-14T00:00:06.240+03:00 level=INFO msg="CreateEvent - end."
+time=2025-12-14T00:00:06.240+03:00 level=INFO msg="127.0.0.1:65343  /event.EventService/Create  0  grpc-go/1.64.1  3.837583ms"
+--- PASS: TestCalendar_CreateEvent_SuccessCases (0.07s)
+=== RUN   TestCalendar_CreateEvent_FailedCases
+time=2025-12-14T00:00:06.247+03:00 level=INFO msg="[::1]:65344  POST  /event/create  HTTP/1.1  Go-http-client/1.1  43.542µs"
+time=2025-12-14T00:00:06.247+03:00 level=INFO msg="127.0.0.1:65343  /event.EventService/Create  3  grpc-go/1.64.1  3.458µs"
+--- PASS: TestCalendar_CreateEvent_FailedCases (0.00s)
+=== RUN   TestCalendar_GetEventsByPeriod
+2025/12/14 00:00:06 INFO TestCalendar get events by periods
+time=2025-12-14T00:00:06.256+03:00 level=INFO msg="GetByPeriod - start" startData=2025-12-13T14:00:06.248+03:00 endData=2025-12-14T14:00:06.248+03:00
+time=2025-12-14T00:00:06.256+03:00 level=INFO msg="GetByPeriod - end"
+2025/12/14 00:00:06 http: superfluous response.WriteHeader call from github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http.(*EventHandler).ListByDay (handler.go:185)
+time=2025-12-14T00:00:06.256+03:00 level=INFO msg="[::1]:65345  GET  /event/list/day  HTTP/1.1  Go-http-client/1.1  463.667µs"
+2025/12/14 00:00:06 INFO TestCalendar get events by period body="[{\"id\":93,\"title\":\"test event\",\"startDate\":\"2025-12-14T00:00:06.248056+03:00\",\"endDate\":\"2025-12-14T00:00:26.248056+03:00\",\"userId\":1}]\n"
+time=2025-12-14T00:00:06.256+03:00 level=INFO msg="GetByPeriod - start" startData=2025-12-13T14:00:06.248+03:00 endData=2025-12-20T14:00:06.248+03:00
+time=2025-12-14T00:00:06.257+03:00 level=INFO msg="GetByPeriod - end"
+2025/12/14 00:00:06 http: superfluous response.WriteHeader call from github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http.(*EventHandler).ListByWeek (handler.go:229)
+time=2025-12-14T00:00:06.257+03:00 level=INFO msg="[::1]:65345  GET  /event/list/week  HTTP/1.1  Go-http-client/1.1  295.542µs"
+time=2025-12-14T00:00:06.257+03:00 level=INFO msg="GetByPeriod - start" startData=2025-12-13T14:00:06.248+03:00 endData=2026-01-13T14:00:06.248+03:00
+time=2025-12-14T00:00:06.257+03:00 level=INFO msg="GetByPeriod - end"
+2025/12/14 00:00:06 http: superfluous response.WriteHeader call from github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http.(*EventHandler).ListByMonth (handler.go:273)
+time=2025-12-14T00:00:06.257+03:00 level=INFO msg="[::1]:65345  GET  /event/list/month  HTTP/1.1  Go-http-client/1.1  269.5µs"
+time=2025-12-14T00:00:06.257+03:00 level=INFO msg="GetByPeriod - start" startData=2025-12-13T11:00:06.248Z endData=2025-12-14T11:00:06.248Z
+time=2025-12-14T00:00:06.258+03:00 level=INFO msg="GetByPeriod - end"
+time=2025-12-14T00:00:06.258+03:00 level=INFO msg="127.0.0.1:65343  /event.EventService/ListByDay  0  grpc-go/1.64.1  282.125µs"
+time=2025-12-14T00:00:06.258+03:00 level=INFO msg="GetByPeriod - start" startData=2025-12-13T11:00:06.248Z endData=2025-12-20T11:00:06.248Z
+time=2025-12-14T00:00:06.258+03:00 level=INFO msg="GetByPeriod - end"
+time=2025-12-14T00:00:06.258+03:00 level=INFO msg="127.0.0.1:65343  /event.EventService/ListByWeek  0  grpc-go/1.64.1  334.917µs"
+time=2025-12-14T00:00:06.258+03:00 level=INFO msg="GetByPeriod - start" startData=2025-12-13T11:00:06.248Z endData=2026-01-13T11:00:06.248Z
+time=2025-12-14T00:00:06.259+03:00 level=INFO msg="GetByPeriod - end"
+time=2025-12-14T00:00:06.259+03:00 level=INFO msg="127.0.0.1:65343  /event.EventService/ListByMonth  0  grpc-go/1.64.1  277.792µs"
+--- PASS: TestCalendar_GetEventsByPeriod (0.02s)
+PASS
+2025/12/14 00:00:06 INFO stop test
+time=2025-12-14T00:00:06.265+03:00 level=INFO msg="stop http server"
+time=2025-12-14T00:00:06.265+03:00 level=INFO msg="server grpc stopped"
+2025/12/14 00:00:06 INFO exit with code code=0
+ok      github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/integration_test 0.874s
