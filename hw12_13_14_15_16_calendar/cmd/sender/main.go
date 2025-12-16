@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"log/slog"
 	"os/signal"
 	"syscall"
 
@@ -17,6 +18,7 @@ func main() {
 	appConfig := configs.GetAppConfig[configs.CalendarConfig]()
 
 	appLogger := logger.NewLogger(appConfig.Logger.Level)
+	appLogger.Info("config received", slog.Any("config", appConfig))
 
 	rabbitMq := rabbitmq.NewRabbitMq(appConfig.RabbitMQ)
 	newSender := sender.NewSender(rabbitMq, appLogger)
@@ -24,7 +26,10 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	_ = newSender.Run(appCtx)
+	err = newSender.Run(appCtx)
+	if err != nil {
+		panic(err)
+	}
 
 	ctx, cancel := signal.NotifyContext(appCtx, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 	<-ctx.Done()

@@ -1,0 +1,68 @@
+version: "3.8"
+
+networks:
+  default:
+    driver: bridge
+
+services:
+  postgres:
+    image: postgres:14.6-alpine3.17
+    environment:
+      TZ: 'Europe/Moscow'
+      POSTGRES_DB: app_db
+      SCHEMA: public
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+  migrations:
+    image: ghcr.io/kukymbr/goose-docker:3.24.3
+    environment:
+      GOOSE_DRIVER: postgres
+      GOOSE_DBSTRING: host=postgres port=5432 user=postgres password=postgres dbname=app_db sslmode=disable
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      - postgres
+    restart: on-failure
+    command: up
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: user
+
+  calendar:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  scheduler:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile_scheduler
+    depends_on:
+      - postgres
+      - rabbitmq
+    restart: unless-stopped
+
+  sender:
+    build:
+      context: .
+      dockerfile: ./build/Dockerfile_sender
+    depends_on:
+      - rabbitmq
+      - scheduler
+    restart: unless-stopped

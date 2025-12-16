@@ -58,4 +58,23 @@ generate:
 		--go-grpc_out=./internal/server/grpc \
 		./api/*.proto
 
+up:
+	docker-compose -f docker-compose-local.yaml up -d
+
+down:
+	docker-compose -f docker-compose-local.yaml down
+
+run_integration_test:
+	@docker-compose -f docker-compose-test.yaml up -d postgres migrations rabbitmq && \
+    sleep 5 && \
+    docker-compose -f docker-compose-test.yaml up --build --abort-on-container-exit --exit-code-from integration-tests integration-tests; \
+    EXIT_CODE=$$?; \
+    echo "Tests exited with code: $$EXIT_CODE"; \
+    docker-compose -f docker-compose-test.yaml down -v; \
+    exit $$EXIT_CODE
+
+run_integration_test_local:
+	go test -v -tags=integration ./internal/integration_test/... --config-file-path=../../configs/config_integration_local.yaml
+
+
 .PHONY: build run build-img run-img version test lint

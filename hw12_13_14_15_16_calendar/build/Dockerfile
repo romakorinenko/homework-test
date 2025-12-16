@@ -33,4 +33,4 @@ COPY --from=build ${BIN_FILE} ${BIN_FILE}
 ENV CONFIG_FILE /etc/calendar/config.yaml
 COPY ./configs/config.yaml ${CONFIG_FILE}
 
-CMD ${BIN_FILE} -config ${CONFIG_FILE}
+CMD ${BIN_FILE} -config-file-path ${CONFIG_FILE}

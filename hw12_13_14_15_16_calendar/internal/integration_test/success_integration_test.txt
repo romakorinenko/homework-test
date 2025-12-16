@@ -1,0 +1,102 @@
+romakorinenko@MacBook-Pro-de-Roman hw12_13_14_15_16_calendar % make run_integration_test
+WARN[0000] /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/docker-compose-test.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 4/4
+ ✔ Network hw12_13_14_15_16_calendar_default         Created                                                                                                                                      0.1s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1    Started                                                                                                                                      0.3s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Started                                                                                                                                      0.3s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Started                                                                                                                                      0.3s
+WARN[0000] /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/docker-compose-test.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Building 1.7s (13/13) FINISHED
+ => [internal] load local bake definitions                                                                                                                                                        0.0s
+ => => reading from stdin 694B                                                                                                                                                                    0.0s
+ => [internal] load build definition from Dockerfile_test                                                                                                                                         0.0s
+ => => transferring dockerfile: 344B                                                                                                                                                              0.0s
+ => WARN: FromAsCasing: 'as' and 'FROM' keywords' casing do not match (line 1)                                                                                                                    0.0s
+ => [internal] load metadata for docker.io/library/golang:1.23.4                                                                                                                                  1.2s
+ => [internal] load .dockerignore                                                                                                                                                                 0.0s
+ => => transferring context: 2B                                                                                                                                                                   0.0s
+ => [1/6] FROM docker.io/library/golang:1.23.4@sha256:9820aca42262f58451f006de3213055974b36f24b31508c1baa73c967fcecb99                                                                            0.0s
+ => [internal] load build context                                                                                                                                                                 0.0s
+ => => transferring context: 3.78kB                                                                                                                                                               0.0s
+ => CACHED [2/6] WORKDIR /app                                                                                                                                                                     0.0s
+ => CACHED [3/6] COPY go.mod go.sum ./                                                                                                                                                            0.0s
+ => CACHED [4/6] RUN go mod download                                                                                                                                                              0.0s
+ => CACHED [5/6] COPY . .                                                                                                                                                                         0.0s
+ => CACHED [6/6] COPY ./configs/config_docker.yaml /etc/config.yaml                                                                                                                               0.0s
+ => exporting to image                                                                                                                                                                            0.0s
+ => => exporting layers                                                                                                                                                                           0.0s
+ => => writing image sha256:f45ea932301fce7a34706458bfa2f266378bde2d2eab4831638a5e7b2e41c71d                                                                                                      0.0s
+ => => naming to docker.io/library/hw12_13_14_15_16_calendar-integration-tests                                                                                                                    0.0s
+ => resolving provenance for metadata file                                                                                                                                                        0.0s
+[+] Running 4/4
+ ✔ hw12_13_14_15_16_calendar-integration-tests     Built                                                                                                                                          0.0s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1  Running                                                                                                                                        0.0s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1  Running                                                                                                                                        0.0s
+ ✔ Container integration-tests                     Created                                                                                                                                        0.1s
+Attaching to integration-tests
+integration-tests  | 2025/12/14 14:12:28 INFO start test
+integration-tests  | 2025/12/14 14:12:28 INFO loading config file file=/etc/config.yaml
+integration-tests  | 2025/12/14 14:12:28 INFO  config="{Logger:{Level:INFO} Storage:{Type:sql DBString:postgresql://postgres:postgres@postgres:5432/app_db?sslmode=disable} HTTP:{Port:8080 Timeout:10s} GRPC:{Host:0.0.0.0 Port:50051 Timeout:10s} RabbitMQ:{Host:rabbitmq Port:5672 User:user Password:user Queue: Timeout:3s} Scheduler:{NotificationCron:* * * * * EventDeletionCron:0 10 * * *}}"
+integration-tests  | time=2025-12-14T14:12:28.714Z level=INFO msg="notification job created" !BADKEY="jobID=e33e1310-fdbc-4c3f-955c-e1217bdecf98"
+integration-tests  | time=2025-12-14T14:12:28.714Z level=INFO msg="deletion job created" !BADKEY="jobID=3d7334c7-a539-420c-b446-382893ab1269"
+integration-tests  | time=2025-12-14T14:12:28.714Z level=INFO msg="scheduler started"
+integration-tests  | time=2025-12-14T14:12:28.715Z level=INFO msg="calendar is running..."
+integration-tests  | === RUN   TestCalendar_CreateEvent_SuccessCases
+integration-tests  | time=2025-12-14T14:12:28.715Z level=INFO msg="start http server" addr=:8080
+integration-tests  | 2025/12/14 14:12:28 INFO TestCalendar create event. success cases
+integration-tests  | time=2025-12-14T14:12:28.715Z level=INFO msg="start http server" addr=0.0.0.0:50051
+integration-tests  | "2025-12-14 14:12:28.715573844 +0000 UTC m=+0.010694114"
+integration-tests  | time=2025-12-14T14:12:28.715Z level=INFO msg="CreateEvent - start." event="&{ID:0 Title:test event StartDate:2025-12-14 14:12:28.715075474 +0000 UTC EndDate:2025-12-14 14:12:48.715075474 +0000 UTC UserID:1}"
+integration-tests  | time=2025-12-14T14:12:28.736Z level=INFO msg="CreateEvent - end."
+integration-tests  | time=2025-12-14T14:12:28.736Z level=INFO msg="[::1]:41584  POST  /event/create  HTTP/1.1  Go-http-client/1.1  20.862482ms"
+integration-tests  | time=2025-12-14T14:12:28.740Z level=INFO msg="CreateEvent - start." event="&{ID:0 Title:test event2 StartDate:2025-12-14 14:12:28.715075474 +0000 UTC EndDate:2025-12-14 14:12:48.715075474 +0000 UTC UserID:1}"
+integration-tests  | time=2025-12-14T14:12:28.742Z level=INFO msg="CreateEvent - end."
+integration-tests  | time=2025-12-14T14:12:28.742Z level=INFO msg="127.0.0.1:42138  /event.EventService/Create  0  grpc-go/1.64.1  2.315772ms"
+integration-tests  | --- PASS: TestCalendar_CreateEvent_SuccessCases (0.03s)
+integration-tests  | === RUN   TestCalendar_CreateEvent_FailedCases
+integration-tests  | time=2025-12-14T14:12:28.746Z level=INFO msg="[::1]:41590  POST  /event/create  HTTP/1.1  Go-http-client/1.1  26.25µs"
+integration-tests  | time=2025-12-14T14:12:28.746Z level=INFO msg="127.0.0.1:42138  /event.EventService/Create  3  grpc-go/1.64.1  3.125µs"
+integration-tests  | --- PASS: TestCalendar_CreateEvent_FailedCases (0.00s)
+integration-tests  | === RUN   TestCalendar_GetEventsByPeriod
+integration-tests  | 2025/12/14 14:12:28 INFO TestCalendar get events by periods
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - start" startData=2025-12-14T04:12:28.746Z endData=2025-12-15T04:12:28.746Z
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - end"
+integration-tests  | 2025/12/14 14:12:28 http: superfluous response.WriteHeader call from github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http.(*EventHandler).ListByDay (handler.go:185)
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="[::1]:41606  GET  /event/list/day  HTTP/1.1  Go-http-client/1.1  147.582µs"
+integration-tests  | 2025/12/14 14:12:28 INFO TestCalendar get events by period body="[{\"id\":3,\"title\":\"test event\",\"startDate\":\"2025-12-14T14:12:28.746786Z\",\"endDate\":\"2025-12-14T14:12:48.746786Z\",\"userId\":1}]\n"
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - start" startData=2025-12-14T04:12:28.746Z endData=2025-12-21T04:12:28.746Z
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - end"
+integration-tests  | 2025/12/14 14:12:28 http: superfluous response.WriteHeader call from github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http.(*EventHandler).ListByWeek (handler.go:229)
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="[::1]:41606  GET  /event/list/week  HTTP/1.1  Go-http-client/1.1  100.166µs"
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - start" startData=2025-12-14T04:12:28.746Z endData=2026-01-14T04:12:28.746Z
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - end"
+integration-tests  | 2025/12/14 14:12:28 http: superfluous response.WriteHeader call from github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/server/http.(*EventHandler).ListByMonth (handler.go:273)
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="[::1]:41606  GET  /event/list/month  HTTP/1.1  Go-http-client/1.1  144.123µs"
+integration-tests  | time=2025-12-14T14:12:28.751Z level=INFO msg="GetByPeriod - start" startData=2025-12-14T04:12:28.746Z endData=2025-12-15T04:12:28.746Z
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="GetByPeriod - end"
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="127.0.0.1:42138  /event.EventService/ListByDay  0  grpc-go/1.64.1  404.663µs"
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="GetByPeriod - start" startData=2025-12-14T04:12:28.746Z endData=2025-12-21T04:12:28.746Z
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="GetByPeriod - end"
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="127.0.0.1:42138  /event.EventService/ListByWeek  0  grpc-go/1.64.1  447.621µs"
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="GetByPeriod - start" startData=2025-12-14T04:12:28.746Z endData=2026-01-14T04:12:28.746Z
+integration-tests  | time=2025-12-14T14:12:28.752Z level=INFO msg="GetByPeriod - end"
+integration-tests  | time=2025-12-14T14:12:28.753Z level=INFO msg="127.0.0.1:42138  /event.EventService/ListByMonth  0  grpc-go/1.64.1  62.958µs"
+integration-tests  | --- PASS: TestCalendar_GetEventsByPeriod (0.01s)
+integration-tests  | PASS
+integration-tests  | 2025/12/14 14:12:28 INFO stop test
+integration-tests  | time=2025-12-14T14:12:28.757Z level=INFO msg="stop http server"
+integration-tests  | time=2025-12-14T14:12:28.757Z level=INFO msg="server grpc stopped"
+integration-tests  | 2025/12/14 14:12:28 INFO exit with code code=0
+integration-tests  | ok         github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/integration_test 0.055s
+integration-tests exited with code 0
+Aborting on container exit...
+ Container integration-tests  Stopping
+ Container integration-tests  Stopped
+Tests exited with code: 0
+WARN[0000] /Users/romakorinenko/GolandProjects/homework-test/hw12_13_14_15_16_calendar/docker-compose-test.yaml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion
+[+] Running 5/5
+ ✔ Container integration-tests                       Removed                                                                                                                                      0.1s
+ ✔ Container hw12_13_14_15_16_calendar-rabbitmq-1    Removed                                                                                                                                      1.3s
+ ✔ Container hw12_13_14_15_16_calendar-migrations-1  Removed                                                                                                                                      0.1s
+ ✔ Container hw12_13_14_15_16_calendar-postgres-1    Removed                                                                                                                                      0.2s
+ ✔ Network hw12_13_14_15_16_calendar_default         Removed                                                                                                                                      0.1s
