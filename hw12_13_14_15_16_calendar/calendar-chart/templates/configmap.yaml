@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "calendar-chart.fullname" . }}
+  labels:
+    {{- include "calendar-chart.labels" . | nindent 4 }}
+data:
+  config.yaml: |
+    {{- toYaml .Values.configmap.config | nindent 4 }}

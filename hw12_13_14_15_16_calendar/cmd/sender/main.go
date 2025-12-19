@@ -3,8 +3,10 @@ package main
 import (
 	"context"
 	"log/slog"
+	"net/http"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/configs"
 	"github.com/romakorinenko/homework-test/hw12_13_14_15_calendar/internal/logger"
@@ -13,6 +15,21 @@ import (
 )
 
 func main() {
+	http.HandleFunc("/hello", func(w http.ResponseWriter, _ *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("OK"))
+	})
+
+	server := &http.Server{
+		Addr:              ":8080",
+		Handler:           nil,
+		ReadHeaderTimeout: 5 * time.Second,
+	}
+
+	go func() {
+		_ = server.ListenAndServe()
+	}()
+
 	appCtx, cancelFunc := context.WithCancel(context.Background())
 	defer cancelFunc()
 	appConfig := configs.GetAppConfig[configs.CalendarConfig]()
@@ -33,6 +50,7 @@ func main() {
 
 	ctx, cancel := signal.NotifyContext(appCtx, syscall.SIGINT, syscall.SIGTERM, syscall.SIGHUP)
 	<-ctx.Done()
+	_ = server.Shutdown(appCtx)
 	cancel()
 	newSender.Stop()
 }

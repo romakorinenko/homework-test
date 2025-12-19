@@ -17,7 +17,6 @@ import (
 )
 
 func main() {
-	printVersion()
 	appCtx, cancelFunc := context.WithCancel(context.Background())
 	defer cancelFunc()
 	appConfig := configs.GetAppConfig[configs.CalendarConfig]()
